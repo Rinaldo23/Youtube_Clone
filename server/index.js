@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import authRouter from "./routes/authRouter.js";
 
 // Creating express application
 const app = express();
@@ -25,6 +26,26 @@ mongoose.connection.on("disconnected", () => {
 
 mongoose.connection.on("connected", () => {
     console.log("MongoDB Connected");
+});
+
+// Middlewares
+
+// IMPORTANT -To accept any json data from outside  
+app.use(express.json());
+
+app.use("/api/auth", authRouter);
+
+
+// Error Handling
+app.use((err, req, res, next) => {
+    const status = err.status || 500;
+    const message = err.message || "Something went wrong!";
+    return res.status(status).json({
+        success: false,
+        status,
+        message,
+        stack: err.stack
+    });
 });
 
 // Creating a connection to Server
