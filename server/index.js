@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import authRouter from "./routes/authRouter.js";
 
 // Creating express application
@@ -29,7 +30,7 @@ mongoose.connection.on("connected", () => {
 });
 
 // Middlewares
-
+app.use(cookieParser());
 // IMPORTANT -To accept any json data from outside  
 app.use(express.json());
 
