@@ -1,5 +1,5 @@
 import express from "express";
-import { deleteUser, getUser, subscribeUser, updateUser } from "../controllers/userController.js";
+import { deleteUser, getUser, subscribeUser, unSubscribeUser, updateUser } from "../controllers/userController.js";
 import { verifyToken } from "../utils/verifyToken.js";
 
 const userRouter = express.Router();
@@ -15,6 +15,9 @@ userRouter.get("/find/:id", getUser);
 
 // SUBSCRIBE USER/CHANNEL
 userRouter.put("/sub/:id", verifyToken, subscribeUser);
+
+// SUBSCRIBE USER/CHANNEL
+userRouter.put("/unsub/:id", verifyToken, unSubscribeUser);
 
 
 export default userRouter;

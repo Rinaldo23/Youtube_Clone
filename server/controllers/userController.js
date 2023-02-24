@@ -57,3 +57,25 @@ export const subscribeUser = async (req, res, next) => {
         }
     }
 }
+
+export const unSubscribeUser = async (req, res, next) => {
+    if (req.params.id === req.user.id) {
+        return next(createError(500, "You cannot UnSubscribe to your own channel!"));
+    } else {
+        try {
+            const existsUser = await User.find({ subscribedUsers: { $in: req.params.id } }).limit(20);
+
+            if (existsUser[0]) {
+                await User.findByIdAndUpdate(req.user.id, { $pull: { subscribedUsers: req.params.id } });
+                await User.findByIdAndUpdate(req.params.id, { $inc: { subscribers: -1 } });
+            } else {
+                return next(createError(500, "You are not a Subscriber!"));
+            }
+            res.status(200).json({
+                message: "UnSubscribed successfully"
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
+}
