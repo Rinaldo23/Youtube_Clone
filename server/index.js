@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import authRouter from "./routes/authRouter.js";
 import userRouter from "./routes/userRouter.js";
 import videoRouter from "./routes/videoRouter.js";
+import commentRouter from "./routes/commentRouter.js";
 
 // Creating express application
 const app = express();
@@ -39,7 +40,7 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/videos", videoRouter);
-
+app.use("/api/comments", commentRouter);
 
 // Error Handling
 app.use((err, req, res, next) => {
