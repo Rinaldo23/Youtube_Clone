@@ -68,3 +68,21 @@ export const addView = async (req, res, next) => {
         next(err);
     }
 };
+
+export const randomVideos = async (req, res, next) => {
+    try {
+        const videos = await Video.aggregate([{ $sample: { size: 40 } }]);
+        res.status(200).json(videos);
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const trendingVideos = async (req, res, next) => {
+    try {
+        const videos = await Video.find().sort({ views: -1 });
+        res.status(200).json(videos);
+    } catch (err) {
+        next(err);
+    }
+};
