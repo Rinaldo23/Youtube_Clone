@@ -13,7 +13,7 @@ export const updateUser = async (req, res, next) => {
     } else {
         return next(createError(403, "You can update only your account!"));
     }
-}
+};
 
 export const deleteUser = async (req, res, next) => {
     if (req.params.id === req.user.id) {
@@ -26,7 +26,7 @@ export const deleteUser = async (req, res, next) => {
     } else {
         return next(createError(403, "You can delete only your account!"));
     }
-}
+};
 
 export const getUser = async (req, res, next) => {
     try {
@@ -35,7 +35,7 @@ export const getUser = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 export const subscribeUser = async (req, res, next) => {
     if (req.params.id === req.user.id) {
@@ -57,7 +57,7 @@ export const subscribeUser = async (req, res, next) => {
             next(err);
         }
     }
-}
+};
 
 export const unSubscribeUser = async (req, res, next) => {
     if (req.params.id === req.user.id) {
@@ -86,14 +86,27 @@ export const likeVideo = async (req, res, next) => {
     const videoId = req.params.videoId;
 
     try {
-        await Video.findByIdAndUpdate(videoId,
-            { $addToSet: { likes: id } },
-            { $pull: { dislikes: id } }
-        );
+        await Video.findByIdAndUpdate(videoId, { $addToSet: { likes: id } });
+        await Video.findByIdAndUpdate(videoId, { $pull: { dislikes: id } });
         res.status(200).json({
             message: "The video has been liked!"
-        })
+        });
     } catch (err) {
         next(err);
     }
-}
+};
+
+export const dislikeVideo = async (req, res, next) => {
+    const id = req.user.id;
+    const videoId = req.params.videoId;
+
+    try {
+        await Video.findByIdAndUpdate(videoId, { $addToSet: { dislikes: id } });
+        await Video.findByIdAndUpdate(videoId, { $pull: { likes: id } });
+        res.status(200).json({
+            message: "The video has been disliked!"
+        });
+    } catch (err) {
+        next(err);
+    }
+};
