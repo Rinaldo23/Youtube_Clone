@@ -1,5 +1,5 @@
 import express from "express";
-import { addComment, getComments } from "../controllers/commentController.js";
+import { addComment, deleteComment, getComments } from "../controllers/commentController.js";
 import { verifyToken } from "../utils/verifyToken.js";
 
 const commentRouter = express.Router();
@@ -8,7 +8,7 @@ const commentRouter = express.Router();
 commentRouter.post("/", verifyToken, addComment);
 
 // DELETE COMMENT
-// commentRouter.delete("/:id", verifyToken, deleteComment);
+commentRouter.delete("/:videoId/:commentId", verifyToken, deleteComment);
 
 // GET COMMENTS
 commentRouter.get("/:videoId", getComments);
