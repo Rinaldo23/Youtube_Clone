@@ -6,6 +6,7 @@ import authRouter from "./routes/authRouter.js";
 import userRouter from "./routes/userRouter.js";
 import videoRouter from "./routes/videoRouter.js";
 import commentRouter from "./routes/commentRouter.js";
+import cors from "cors";
 
 // Creating express application
 const app = express();
@@ -33,6 +34,7 @@ mongoose.connection.on("connected", () => {
 });
 
 // Middlewares
+app.use(cors());
 app.use(cookieParser());
 // IMPORTANT -To accept any json data from outside  
 app.use(express.json());
