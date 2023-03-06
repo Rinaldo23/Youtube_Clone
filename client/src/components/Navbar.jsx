@@ -79,6 +79,7 @@ const Navbar = () => {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [q, setQ] = useState("");
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -92,8 +93,8 @@ const Navbar = () => {
       <Container>
         <Wrapper>
           <Search>
-            <Input placeholder="Search" />
-            <SearchOutlinedIcon />
+            <Input placeholder="Search" onChange={(e) => setQ(e.target.value)} />
+            <SearchOutlinedIcon onClick={() => navigate(`/search?q=${q}`)} />
           </Search>
           {
             currentUser ? (

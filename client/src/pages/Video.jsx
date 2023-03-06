@@ -7,7 +7,6 @@ import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import Comments from "../components/Comments";
-import Card from "../components/Card";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
