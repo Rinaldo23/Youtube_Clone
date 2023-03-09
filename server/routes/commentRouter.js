@@ -8,7 +8,7 @@ const commentRouter = express.Router();
 commentRouter.post("/", verifyToken, addComment);
 
 // DELETE COMMENT
-commentRouter.delete("/:videoId/:commentId", verifyToken, deleteComment);
+commentRouter.delete("/:videoId/:commentId/:token", verifyToken, deleteComment);
 
 // GET COMMENTS
 commentRouter.get("/:videoId", getComments);

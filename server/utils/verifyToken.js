@@ -8,7 +8,7 @@ export const verifyToken = (req, res, next) => {
         token = req.params.token;
     }
     // console.log(token)
-    // console.log(req.params)
+    // console.log(req.body)
     if (!token) return next(createError(401, "You are not authenticated!"));
 
     jwt.verify(token, process.env.JWT, (err, user) => {

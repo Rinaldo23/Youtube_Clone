@@ -28,11 +28,21 @@ const Input = styled.input`
   width: 100%;
 `;
 
+const Button = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  background-color: white;
+  padding: 5px;
+`;
+
 const Comments = ({ videoId }) => {
 
   const { currentUser } = useSelector((state) => state.user);
 
   const [comments, setComments] = useState([]);
+  const [desc, setDesc] = useState("");
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -42,15 +52,24 @@ const Comments = ({ videoId }) => {
       } catch (err) { }
     };
     fetchComments();
-  }, [videoId]);
+  }, [videoId, comments]);
 
   //TODO: ADD NEW COMMENT FUNCTIONALITY
+  const handleComment = async () => {
+    try {
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/comments/`, { desc, videoId, token: localStorage.getItem("access_token") });
+      setDesc("")
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <Container>
       <NewComment>
         <Avatar src={currentUser?.img} />
-        <Input placeholder="Add a comment..." />
+        <Input placeholder="Add a comment..." onChange={(e) => setDesc(e.target.value)} />
+        <Button onClick={handleComment}>Post</Button>
       </NewComment>
       {
         comments.map((comment) => (
