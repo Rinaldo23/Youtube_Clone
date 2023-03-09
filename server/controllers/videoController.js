@@ -49,6 +49,7 @@ export const deleteVideo = async (req, res, next) => {
 export const getVideo = async (req, res, next) => {
     try {
         const video = await Video.findById(req.params.id);
+        // console.log(video)
         if (!video) return next(createError(404, "Video not found!"));
         res.status(200).json(video);
     } catch (err) {
@@ -91,6 +92,7 @@ export const trendingVideos = async (req, res, next) => {
 export const subscribedChannelVideos = async (req, res, next) => {
     try {
         const user = await User.findById(req.user.id);
+        // console.log(user)
         const subscribedUsers = user.subscribedUsers;
 
         const list = await Promise.all(

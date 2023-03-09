@@ -81,13 +81,24 @@ const SignIn = () => {
     e.preventDefault();
     dispatch(loginStart());
     try {
-      const res = await axios.post(`/auth/signin`, { name, password });
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/signin`, { name, password });
       dispatch(loginSuccess(res.data));
       // console.log(res.data);
+      localStorage.setItem("access_token", res.data.token);
       navigate("/");
     } catch (error) {
       // console.log(error)
       dispatch(loginFailure());
+    }
+  };
+
+  const handleSignUp = async (e) => {
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/signup`, { name, password, email });
+      // console.log(res.data);
+      navigate("/signin");
+    } catch (error) {
+      console.log(error)
     }
   };
 
@@ -96,7 +107,7 @@ const SignIn = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         axios
-          .post("/auth/google", {
+          .post(`${process.env.REACT_APP_BASE_URL}/auth/google`, {
             name: result.user.displayName,
             email: result.user.email,
             img: result.user.photoURL,
@@ -104,6 +115,7 @@ const SignIn = () => {
           .then((res) => {
             console.log(res)
             dispatch(loginSuccess(res.data));
+            localStorage.setItem("access_token", res.data.token);
             navigate("/")
           });
       })
@@ -115,18 +127,22 @@ const SignIn = () => {
   return (
     <Container>
       <Wrapper>
+
         <Title>Sign in</Title>
         <SubTitle>to continue to YouTube</SubTitle>
         <Input placeholder="username" onChange={(e) => setName(e.target.value)} />
         <Input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
         <Button onClick={handleLogin}>Sign in</Button>
+
         <Title>or</Title>
         <Button onClick={signInWithGoogle}>Signin with Google</Button>
         <Title>or</Title>
+
         <Input placeholder="username" onChange={(e) => setName(e.target.value)} />
         <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
         <Input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
-        <Button>Sign up</Button>
+        <Button onClick={handleSignUp}>Sign up</Button>
+
       </Wrapper>
       <More>
         English(USA)

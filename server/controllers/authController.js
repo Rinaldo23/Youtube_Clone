@@ -30,7 +30,7 @@ export const signin = async (req, res, next) => {
 
         res.cookie("access_token", token, { httpOnly: true })
             .status(200)
-            .json(otherDetails);
+            .json({ otherDetails, token });
 
     } catch (err) {
         next(err);
@@ -42,12 +42,15 @@ export const googleAuth = async (req, res, next) => {
         const user = await User.findOne({ email: req.body.email });
         if (user) {
             const token = jwt.sign({ id: user._id }, process.env.JWT);
+
+            const { ...otherDetails } = user._doc;
+
             res
                 .cookie("access_token", token, {
                     httpOnly: true,
                 })
                 .status(200)
-                .json(user._doc);
+                .json({ otherDetails, token });
         } else {
             const newUser = new User({
                 ...req.body,
@@ -55,12 +58,15 @@ export const googleAuth = async (req, res, next) => {
             });
             const savedUser = await newUser.save();
             const token = jwt.sign({ id: savedUser._id }, process.env.JWT);
+
+            const { ...otherDetails } = savedUser._doc;
+
             res
                 .cookie("access_token", token, {
                     httpOnly: true,
                 })
                 .status(200)
-                .json(savedUser._doc);
+                .json({ otherDetails, token });
         }
     } catch (err) {
         next(err);

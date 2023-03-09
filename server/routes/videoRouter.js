@@ -20,13 +20,13 @@ videoRouter.get("/find/:id", getVideo);
 videoRouter.put("/view/:id", addView);
 
 // RANDOM VIDEOS
-videoRouter.get("/random", randomVideos);
+videoRouter.get("/random/:token", randomVideos);
 
 // TRENDING VIDEOS
-videoRouter.get("/trend", trendingVideos);
+videoRouter.get("/trend/:token", trendingVideos);
 
 // SUBSCRIBED CHANNEL VIDEOS
-videoRouter.get("/sub", verifyToken, subscribedChannelVideos);
+videoRouter.get("/sub/:token", verifyToken, subscribedChannelVideos);
 
 // GET VIDEOS BY TAGS
 videoRouter.get("/tags", getByTag);

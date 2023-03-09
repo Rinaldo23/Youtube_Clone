@@ -37,7 +37,7 @@ const Comments = ({ videoId }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`/comments/${videoId}`);
+        const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/comments/${videoId}`);
         setComments(res.data);
       } catch (err) { }
     };
@@ -49,12 +49,12 @@ const Comments = ({ videoId }) => {
   return (
     <Container>
       <NewComment>
-        <Avatar src={currentUser.img} />
+        <Avatar src={currentUser?.img} />
         <Input placeholder="Add a comment..." />
       </NewComment>
       {
         comments.map((comment) => (
-          <Comment key={comment._id} comment={comment}/>
+          <Comment key={comment?._id} comment={comment}/>
         ))
       }
 

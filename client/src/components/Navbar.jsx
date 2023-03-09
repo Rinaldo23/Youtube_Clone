@@ -84,6 +84,7 @@ const Navbar = () => {
   const handleLogout = async (e) => {
     e.preventDefault();
     dispatch(logout());
+    localStorage.removeItem("access_token");
     navigate("/");
     // console.log("Logout")
   }
@@ -100,8 +101,8 @@ const Navbar = () => {
             currentUser ? (
               <User>
                 <VideoCallOutlinedIcon onClick={() => setOpen(true)} />
-                <Avatar src={currentUser.img} />
-                {currentUser.name}
+                <Avatar src={currentUser?.otherDetails?.img} />
+                {currentUser?.otherDetails?.name}
                 <Button onClick={handleLogout}>
                   LOGOUT
                 </Button>
